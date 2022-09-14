@@ -1,3 +1,17 @@
+@mixin borders($size) {
+  border-top: $size solid #eee;
+  border-left: $size solid #eee;
+  border-right: $size solid #666;
+  border-bottom: $size solid #666;
+}
+
+@mixin borders-reversed($size) {
+  border-top: $size solid #666;
+  border-left: $size solid #666;
+  border-right: $size solid #eee;
+  border-bottom: $size solid #eee;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -110,54 +124,34 @@ div .light {
 
       .emoji {
         background-color: #bbb;
-        border-top: 3px solid #eee;
-        border-left: 3px solid #eee;
-        border-right: 3px solid #666;
-        border-bottom: 3px solid #666;
-        height: 48px;
+        @include borders(3px);
+        height: 40px;
       }
 
       .emoji:active {
-        border-top: 3px solid #666;
-        border-left: 3px solid #666;
-        border-right: 3px solid #eee;
-        border-bottom: 3px solid #eee;
+        @include borders-reversed(3px)
       }
 
-      .bombs-left {
-        width: 96px;
-        height: 48px;
+      .counter {
+        width: 80px;
+        height: 40px;
         text-align: center;
-        line-height: 44px;
-        font-size: 38px;
+        line-height: 34px;
+        font-size: 32px;
         letter-spacing: 2px;
-        border-right: 2px solid #eee;
-        border-bottom: 2px solid #eee;
-        border-top: 2px solid #666;
-        border-left: 2px solid #666;
+        @include borders-reversed(3px);
         color: #eee;
         background-color: #511;
       }
-
-      .time {
-        width: 96px;
-        height: 48px;
-        text-align: center;
-        line-height: 44px;
-        font-size: 38px;
-        letter-spacing: 2px;
-        border-right: 2px solid #eee;
-        border-bottom: 2px solid #eee;
-        border-top: 2px solid #666;
-        border-left: 2px solid #666;
-        color: #eee;
-        background-color: #511;
+      
+      .easy {
+        width: 56px;
       }
     }
   }
 
   .Game {
-    margin: 8px;
+    margin: 0 8px 8px 8px;
 
     .line {
       display: flex;
@@ -166,17 +160,11 @@ div .light {
     .field {
       height: 22px;
       width: 22px;
-      border-right: 3px solid #666;
-      border-bottom: 3px solid #666;
-      border-top: 3px solid #eee;
-      border-left: 3px solid #eee;
+      @include borders(3px);
     }
 
     .field:active {
-      border-right: 3px solid #eee;
-      border-bottom: 3px solid #eee;
-      border-top: 3px solid #666;
-      border-left: 3px solid #666;
+      @include borders-reversed(3px);
     }
   }
 }

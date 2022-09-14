@@ -23,9 +23,9 @@ const Options = ({onChange, difficulty}) => {
         </div>
       </div>
       <div className='panel'>
-        <span className='time'>000</span>
-        <img className='emoji' src={require('../img/startingEmoji.png')}></img>
-        <span className='bombs-left'>0{bombs}</span>
+        <span className={`time counter ${difficulty === 'easy' && 'easy'}`}>{difficulty !== 'easy' && 0}00</span>
+        <img className='emoji' src={require('../img/startingEmoji.png')} ></img>
+        <span className={`bombs-left counter ${difficulty === 'easy' && 'easy'}`}>{difficulty !== 'easy' && 0}{bombs}</span>
       </div>
     </div>
   )
