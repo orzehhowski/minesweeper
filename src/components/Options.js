@@ -1,6 +1,8 @@
 import DropdownElement from './DropdownElement'
 
-const Options = ({onChange}) => {
+const Options = ({onChange, difficulty}) => {
+  const bombs = difficulty === 'easy' ? 10 : (difficulty === 'medium' ? 40 : 99) 
+
   return (
     <div className="Options">
       <div className='menu'>
@@ -21,9 +23,9 @@ const Options = ({onChange}) => {
         </div>
       </div>
       <div className='panel'>
-        <span className='time'></span>
-        <span className='emoji'></span>
-        <span className='bombs-left'></span>
+        <span className='time'>000</span>
+        <img className='emoji' src={require('../img/startingEmoji.png')}></img>
+        <span className='bombs-left'>0{bombs}</span>
       </div>
     </div>
   )

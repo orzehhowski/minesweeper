@@ -11,7 +11,7 @@ body {
 }
 
 .App {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,7 +81,6 @@ div .light {
             }
           }
         }
-        
 
         span {
           padding: 0 26px 2px 4px;
@@ -101,6 +100,83 @@ div .light {
           display: inline-block;
         }
       }
+    }
+
+    .panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+
+      .emoji {
+        background-color: #bbb;
+        border-top: 3px solid #eee;
+        border-left: 3px solid #eee;
+        border-right: 3px solid #666;
+        border-bottom: 3px solid #666;
+        height: 48px;
+      }
+
+      .emoji:active {
+        border-top: 3px solid #666;
+        border-left: 3px solid #666;
+        border-right: 3px solid #eee;
+        border-bottom: 3px solid #eee;
+      }
+
+      .bombs-left {
+        width: 96px;
+        height: 48px;
+        text-align: center;
+        line-height: 44px;
+        font-size: 38px;
+        letter-spacing: 2px;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-top: 2px solid #666;
+        border-left: 2px solid #666;
+        color: #eee;
+        background-color: #511;
+      }
+
+      .time {
+        width: 96px;
+        height: 48px;
+        text-align: center;
+        line-height: 44px;
+        font-size: 38px;
+        letter-spacing: 2px;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-top: 2px solid #666;
+        border-left: 2px solid #666;
+        color: #eee;
+        background-color: #511;
+      }
+    }
+  }
+
+  .Game {
+    margin: 8px;
+
+    .line {
+      display: flex;
+    }
+
+    .field {
+      height: 22px;
+      width: 22px;
+      border-right: 3px solid #666;
+      border-bottom: 3px solid #666;
+      border-top: 3px solid #eee;
+      border-left: 3px solid #eee;
+    }
+
+    .field:active {
+      border-right: 3px solid #eee;
+      border-bottom: 3px solid #eee;
+      border-top: 3px solid #666;
+      border-left: 3px solid #666;
     }
   }
 }

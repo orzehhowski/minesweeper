@@ -16,7 +16,7 @@ function App() {
     <div className={`App ${color}`}>
       <h1 className={color} >The minesweeper game</h1>
       <div className="wrapper">
-        <Options onChange={changeSettingsHandler}/>
+        <Options onChange={changeSettingsHandler} difficulty={difficulty}/>
         <Game difficulty={difficulty}/>
       </div>
     </div>

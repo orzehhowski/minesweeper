@@ -1,6 +1,6 @@
 import GameField from "./GameField";
 
-const GameLine = ({width}) => {
+const GameLine = ({width, num}) => {
   const line = []
   for (let i = 0; i < width; i++) {
     line.push(i)

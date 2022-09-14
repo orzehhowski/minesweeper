@@ -1,6 +1,6 @@
 const GameField = ({num}) => {
   return (
-      <span className="field">{num}</span>
+      <div className="field"></div>
   )
 }
 

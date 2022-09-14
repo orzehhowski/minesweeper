@@ -27,8 +27,7 @@ const Game = ({difficulty}) => {
   }
   return (
     <div className="Game">
-      <p>h is {height} w is {width}</p>
-      {h.map(el => <GameLine width={width}/>)}
+      {h.map(el => <GameLine width={width} num={el}/>)}
     </div>
   )
 }
