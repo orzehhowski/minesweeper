@@ -1,13 +1,92 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto Mono", monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+h1 {
+  margin: 30px;
+  letter-spacing: 2px;
+}
+
+ul {
+  list-style: none;
+}
+
+div .light {
+  background-color: #ccc;
+  color: #222;
+}
+
+.dark {
+  background-color: #222;
+  color: #ccc;
+}
+
+.wrapper {
+  border-top: 4px solid #eee;
+  border-left: 4px solid #eee;
+  border-right: 4px solid #444;
+  border-bottom: 4px solid #444;
+  box-shadow: 2px 2px 5px #444;
+}
+.wrapper .Options .menu {
+  display: flex;
+  height: 22px;
+  font-size: 14px;
+  background-color: #ddd;
+  border: 1px solid #aaa;
+}
+.wrapper .Options .menu .popup-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.wrapper .Options .menu .popup-wrapper ul {
+  display: none;
+  background-color: #ddd;
+  z-index: 1;
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+}
+.wrapper .Options .menu .popup-wrapper ul li {
+  width: 100%;
+}
+.wrapper .Options .menu .popup-wrapper ul li input {
+  display: none;
+}
+.wrapper .Options .menu .popup-wrapper ul li label {
+  display: inline-block;
+  width: 100%;
+  padding: 2px 4px;
+  border-bottom: 1px solid #aaa;
+}
+.wrapper .Options .menu .popup-wrapper ul li label:hover {
+  background-color: #bbb;
+}
+.wrapper .Options .menu .popup-wrapper span {
+  padding: 0 26px 2px 4px;
+  border-right: 1px solid #aaa;
+  cursor: default;
+}
+.wrapper .Options .menu .popup-wrapper span:hover {
+  background-color: #bbb;
+}
+.wrapper .Options .menu .popup-wrapper span:hover + ul {
+  display: inline-block;
+}
+.wrapper .Options .menu .popup-wrapper ul:hover {
+  display: inline-block;
+}/*# sourceMappingURL=index.css.map */

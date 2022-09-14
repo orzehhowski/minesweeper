@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 function App() {
   const [difficulty, setDifficulty] = useState('medium')
-  const [color, setColor] = useState('dark')
+  const [color, setColor] = useState('light')
   const changeSettingsHandler = (setting, val) => {
     if (setting === 'color') {
       setColor(val)

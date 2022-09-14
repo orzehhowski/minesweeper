@@ -7,7 +7,7 @@ const GameLine = ({width}) => {
   }
 
   return (
-    <div>
+    <div className="line">
       {line.map(el => <GameField num={el}/>)}
     </div>
   )
