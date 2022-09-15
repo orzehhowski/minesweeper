@@ -163,7 +163,7 @@ div .light {
       @include borders(3px);
     }
 
-    .field:active {
+    .field.hidden:active {
       @include borders-reversed(3px);
     }
   }

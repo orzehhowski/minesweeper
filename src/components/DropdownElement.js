@@ -6,7 +6,7 @@ const DropdownElement = ({elementName, dropdownName, onChange}) => {
   return (
     <li onClick={onClick}>
       <input type="radio" id={elementName} name={dropdownName} value={elementName} />
-      <label for={elementName}>{elementName}</label>
+      <label htmlFor={elementName}>{elementName}</label>
     </li>
   )
 }

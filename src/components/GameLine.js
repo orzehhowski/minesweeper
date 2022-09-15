@@ -1,14 +1,10 @@
 import GameField from "./GameField";
 
-const GameLine = ({width, num}) => {
-  const line = []
-  for (let i = 0; i < width; i++) {
-    line.push(i)
-  }
+const GameLine = ({row}) => {
 
   return (
     <div className="line">
-      {line.map(el => <GameField num={el}/>)}
+      {row.map(field => <GameField fieldInfo={field} key={`${field.row}-${field.col}`}/>)}
     </div>
   )
 }
