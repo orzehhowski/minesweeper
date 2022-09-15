@@ -160,6 +160,9 @@ div .light {
     .field {
       height: 22px;
       width: 22px;
+    }
+
+    .hidden {
       @include borders(3px);
     }
 

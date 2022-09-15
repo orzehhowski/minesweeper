@@ -3,7 +3,7 @@ import GameLine from "./GameLine"
 
 const Game = ({difficulty}) => {
   let width, height, bombsStart
-  let isGameRunning = false
+  const [isGameRunning, setIsGameRunning] = useState(false)
   switch (difficulty) {
     case 'easy':
       width = 8
@@ -109,7 +109,7 @@ const Game = ({difficulty}) => {
     for (let row = 0; row < height; row++) {
       const line = []
       for (let col = 0; col < width; col++) {
-        const field = {col, row, content: 0}
+        const field = {col, row, content: 0, hidden: true}
         line.push(field)
       }
       new_fields.push(line)
@@ -142,12 +142,14 @@ const Game = ({difficulty}) => {
 
   const showField = (row, col) => {
     const clicked = fields[row][col]
-
-    document.getElementById(`${row}-${col}`).classList.remove('hidden')
+    clicked.hidden = false
+    // const fieldEl = document.getElementById(`${row}-${col}`)
+    // fieldEl.classList.remove('hidden')
+    // fieldEl.classList.add('shown')
     if (clicked.content === 0) {
-      // console.log(neighbourFields(fields, row, col))
       neighbourFields(fields, row, col).forEach((field) => {
-        if (document.getElementById(`${field.row}-${field.col}`).matches('.hidden')) {
+        // if (document.getElementById(`${field.row}-${field.col}`).matches('.hidden')) {
+        if (field.hidden) {
           showField(field.row, field.col)
         }
       })
@@ -155,14 +157,23 @@ const Game = ({difficulty}) => {
   }
 
   const onClick = (e) => {
-    const [row, col] = e.target.id.split('-')
-    showField(parseInt(row), parseInt(col))
+    if (e.target.matches('.field')) {
+      const [row, col] = e.target.id.split('-')
+
+      if (! isGameRunning) {
+        setIsGameRunning(true)
+        render_bombs()
+      }
+
+      showField(parseInt(row), parseInt(col))
+    }
   }
 
   const [fields, setFields] = useState([])
   
 
   useEffect(() => {
+    setIsGameRunning(false)
     render_bombs()
   }, [difficulty])
 

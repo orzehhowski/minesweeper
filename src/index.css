@@ -136,12 +136,14 @@ div .light {
 .wrapper .Game .field {
   height: 22px;
   width: 22px;
+}
+.wrapper .Game .hidden {
   border-top: 3px solid #eee;
   border-left: 3px solid #eee;
   border-right: 3px solid #666;
   border-bottom: 3px solid #666;
 }
-.wrapper .Game .field:active {
+.wrapper .Game .field.hidden:active {
   border-top: 3px solid #666;
   border-left: 3px solid #666;
   border-right: 3px solid #eee;
