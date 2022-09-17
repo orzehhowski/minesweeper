@@ -101,11 +101,9 @@ const Game = ({difficulty}) => {
     ]
   }
 
-  const render_bombs = () => {
-    let bombsCounter = bombsStart
+  const initFields = () => {
     const new_fields = []
 
-    // CREATE FIELDS
     for (let row = 0; row < height; row++) {
       const line = []
       for (let col = 0; col < width; col++) {
@@ -114,6 +112,12 @@ const Game = ({difficulty}) => {
       }
       new_fields.push(line)
     }
+    return new_fields
+  }
+
+  const render_bombs = () => {
+    let bombsCounter = bombsStart
+    const new_fields = initFields()
 
     // ADD BOMBS AND NUMBERS
     parentLoop:
@@ -140,46 +144,40 @@ const Game = ({difficulty}) => {
     setFields(new_fields)
   }
 
+
+
   const showField = (row, col) => {
-    const clicked = fields[row][col]
-    clicked.hidden = false
-    // const fieldEl = document.getElementById(`${row}-${col}`)
-    // fieldEl.classList.remove('hidden')
-    // fieldEl.classList.add('shown')
-    if (clicked.content === 0) {
-      neighbourFields(fields, row, col).forEach((field) => {
-        // if (document.getElementById(`${field.row}-${field.col}`).matches('.hidden')) {
+    const newFields = [...fields]
+    newFields[row][col].hidden = false
+    if (newFields[row][col].content === 0) {
+      neighbourFields(newFields, row, col).forEach((field) => {
         if (field.hidden) {
           showField(field.row, field.col)
         }
       })
     }
+    setFields(newFields)
   }
 
   const onClick = (e) => {
-    if (e.target.matches('.field')) {
-      const [row, col] = e.target.id.split('-')
+    // if (e.target.matches('.field')) {
+      // const [row, col] = e.target.id.split('-')
 
       if (! isGameRunning) {
         setIsGameRunning(true)
         render_bombs()
       }
 
-      showField(parseInt(row), parseInt(col))
-    }
+      // showField(parseInt(row), parseInt(col))
+    // }
   }
 
-  const [fields, setFields] = useState([])
+  const [fields, setFields] = useState(initFields())
   
 
-  useEffect(() => {
-    setIsGameRunning(false)
-    render_bombs()
-  }, [difficulty])
-
   return (
-    <div className="Game" onClick={onClick}>
-      {fields.map(row => <GameLine key={row[0].row} row={row}/>)}
+    <div className="Game" onClick={onClick} >
+      {fields.map(row => <GameLine showField={showField} key={row[0].row} row={row}/>)}
     </div>
   )
 }
