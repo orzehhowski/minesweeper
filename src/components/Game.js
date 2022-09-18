@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import GameLine from "./GameLine"
 
 const Game = ({difficulty}) => {
@@ -102,7 +102,7 @@ const Game = ({difficulty}) => {
   }
 
   const initFields = () => {
-    const new_fields = []
+    const newFields = []
 
     for (let row = 0; row < height; row++) {
       const line = []
@@ -110,14 +110,14 @@ const Game = ({difficulty}) => {
         const field = {col, row, content: 0, hidden: true}
         line.push(field)
       }
-      new_fields.push(line)
+      newFields.push(line)
     }
-    return new_fields
+    return newFields
   }
 
-  const render_bombs = () => {
+  const render_bombs = (startRow, startCol) => {
     let bombsCounter = bombsStart
-    const new_fields = initFields()
+    const newFields = initFields()
 
     // ADD BOMBS AND NUMBERS
     parentLoop:
@@ -125,59 +125,77 @@ const Game = ({difficulty}) => {
       const probability = bombsStart / (width * height)
       for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
-          if (Math.random() < probability) {
-            new_fields[row][col].content = 'bomb'
-            for (const field of neighbourFields(new_fields, row, col)) {
-              if (field.content !== 'bomb') {
-                field.content++
+          if ((row < startRow - 1 || row > startRow + 1) || (col < startCol - 1 || col > startCol + 1)) {
+            if (Math.random() < probability) {
+              newFields[row][col].content = 'bomb'
+              for (const field of neighbourFields(newFields, row, col)) {
+                if (field.content !== 'bomb') {
+                  field.content++
+                }
               }
-            }
-            bombsCounter--
-            if (bombsCounter === 0) {
-              break parentLoop
+              bombsCounter--
+              if (bombsCounter === 0) {
+                break parentLoop
+              }
             }
           }
         }
       }
     }
 
-    setFields(new_fields)
+    return newFields
   }
 
 
 
-  const showField = (row, col) => {
-    const newFields = [...fields]
-    newFields[row][col].hidden = false
-    if (newFields[row][col].content === 0) {
-      neighbourFields(newFields, row, col).forEach((field) => {
+  const showField = (fieldsToEdit, row, col) => {
+    fieldsToEdit[row][col].hidden = false
+    if (fieldsToEdit[row][col].content === 0) {
+      neighbourFields(fieldsToEdit, row, col).forEach((field) => {
         if (field.hidden) {
-          showField(field.row, field.col)
+          showField(fieldsToEdit, field.row, field.col)
         }
       })
     }
-    setFields(newFields)
   }
 
   const onClick = (e) => {
-    // if (e.target.matches('.field')) {
-      // const [row, col] = e.target.id.split('-')
-
+    console.log('inside game');
+    if (e.target.matches('.field')) {
+      const [row, col] = e.target.id.split('-')
+      
       if (! isGameRunning) {
         setIsGameRunning(true)
-        render_bombs()
+        const newFields = render_bombs(parseInt(row), parseInt(col))
+        showField(newFields, parseInt(row), parseInt(col))
+        setFields(newFields)
+      } else {
+        const newFields = [...fields]
+        showField(newFields, parseInt(row), parseInt(col))
+        setFields(newFields)
       }
-
-      // showField(parseInt(row), parseInt(col))
-    // }
+    }
   }
 
+  const gameRef = useRef()
+
   const [fields, setFields] = useState(initFields())
+
+  useEffect(() => {
+    setFields(initFields())
+    setIsGameRunning(false)
+  }, [difficulty])
+
+  // gameRef.current.addEventListener("contextmenu", (e) => {
+  //   e.preventDefault()
+  // })
   
 
   return (
-    <div className="Game" onClick={onClick} >
-      {fields.map(row => <GameLine showField={showField} key={row[0].row} row={row}/>)}
+    <div ref={gameRef} className="Game" onClick={onClick} >
+      {fields.map(row => <GameLine 
+      showField={showField}
+      key={row[0].row} row={row}/>)}
     </div>
   )
 }
