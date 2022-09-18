@@ -160,7 +160,6 @@ const Game = ({difficulty}) => {
   }
 
   const onClick = (e) => {
-    console.log('inside game');
     if (e.target.matches('.field')) {
       const [row, col] = e.target.id.split('-')
       
@@ -177,8 +176,6 @@ const Game = ({difficulty}) => {
     }
   }
 
-  const gameRef = useRef()
-
   const [fields, setFields] = useState(initFields())
 
   useEffect(() => {
@@ -186,13 +183,13 @@ const Game = ({difficulty}) => {
     setIsGameRunning(false)
   }, [difficulty])
 
-  // gameRef.current.addEventListener("contextmenu", (e) => {
-  //   e.preventDefault()
-  // })
-  
+  const onContextMenu = (ev) => {
+    ev.preventDefault()
+
+  }
 
   return (
-    <div ref={gameRef} className="Game" onClick={onClick} >
+    <div onContextMenu={onContextMenu} className="Game" onClick={onClick} >
       {fields.map(row => <GameLine 
       showField={showField}
       key={row[0].row} row={row}/>)}
