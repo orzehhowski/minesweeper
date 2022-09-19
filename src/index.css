@@ -136,6 +136,13 @@ div .light {
 .wrapper .Game .field {
   height: 22px;
   width: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+.wrapper .Game .field * {
+  pointer-events: none;
 }
 .wrapper .Game .hidden {
   border-top: 3px solid #eee;
@@ -148,4 +155,31 @@ div .light {
   border-left: 3px solid #666;
   border-right: 3px solid #eee;
   border-bottom: 3px solid #eee;
+}
+.wrapper .Game .f-1 {
+  color: darkgreen;
+}
+.wrapper .Game .f-2 {
+  color: royalblue;
+}
+.wrapper .Game .f-3 {
+  color: crimson;
+}
+.wrapper .Game .f-4 {
+  color: purple;
+}
+.wrapper .Game .f-5 {
+  color: saddlebrown;
+}
+.wrapper .Game .f-6 {
+  color: navy;
+}
+.wrapper .Game .f-7 {
+  color: black;
+}
+.wrapper .Game .f-8 {
+  color: hotpink;
+}
+.wrapper .Game .noticed {
+  color: black;
 }/*# sourceMappingURL=index.css.map */

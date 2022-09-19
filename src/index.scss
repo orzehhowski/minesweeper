@@ -160,6 +160,14 @@ div .light {
     .field {
       height: 22px;
       width: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+
+      * {
+        pointer-events: none
+      }
     }
 
     .hidden {
@@ -169,5 +177,34 @@ div .light {
     .field.hidden:active {
       @include borders-reversed(3px);
     }
+
+    .f-1 {
+      color: darkgreen;
+    }
+    .f-2 {
+      color: royalblue;
+    }
+    .f-3 {
+      color: crimson;
+    }
+    .f-4 {
+      color: purple;
+    }
+    .f-5 {
+      color: saddlebrown;
+    }
+    .f-6 {
+      color: navy;
+    }
+    .f-7 {
+      color: black;
+    }
+    .f-8 {
+      color: hotpink;
+    }
+    .noticed {
+      color: black;
+    }
+
   }
 }

@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from "react"
 import GameLine from "./GameLine"
 
-const Game = ({difficulty}) => {
+const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGame, bombsNoticed}) => {
   let width, height, bombsStart
-  const [isGameRunning, setIsGameRunning] = useState(false)
   switch (difficulty) {
     case 'easy':
       width = 8
@@ -107,7 +106,7 @@ const Game = ({difficulty}) => {
     for (let row = 0; row < height; row++) {
       const line = []
       for (let col = 0; col < width; col++) {
-        const field = {col, row, content: 0, hidden: true}
+        const field = {col, row, content: 0, hidden: true, noticed: false}
         line.push(field)
       }
       newFields.push(line)
@@ -119,7 +118,6 @@ const Game = ({difficulty}) => {
     let bombsCounter = bombsStart
     const newFields = initFields()
 
-    // ADD BOMBS AND NUMBERS
     parentLoop:
     while (bombsCounter > 0) {
       const probability = bombsStart / (width * height)
@@ -149,30 +147,59 @@ const Game = ({difficulty}) => {
 
 
   const showField = (fieldsToEdit, row, col) => {
-    fieldsToEdit[row][col].hidden = false
-    if (fieldsToEdit[row][col].content === 0) {
-      neighbourFields(fieldsToEdit, row, col).forEach((field) => {
-        if (field.hidden) {
-          showField(fieldsToEdit, field.row, field.col)
-        }
-      })
+    if (! fieldsToEdit[row][col].noticed) {
+
+      fieldsToEdit[row][col].hidden = false
+
+      if (fieldsToEdit[row][col].content === 0) {
+        neighbourFields(fieldsToEdit, row, col).forEach((field) => {
+          if (field.hidden) {
+            showField(fieldsToEdit, field.row, field.col)
+          }
+        })
+      }
     }
+  }
+
+  const noticeField = (fieldsToEdit, row, col) => {
+    const field = fieldsToEdit[row][col]
+    
+      if (field.hidden) {
+        if (field.noticed) {
+          field.noticed = false
+          onBombNoticed(false)
+        }
+        else {
+          if (bombsStart - bombsNoticed !== 0) {
+            field.noticed = true
+            onBombNoticed(true)
+          }
+        }
+      }
   }
 
   const onClick = (e) => {
     if (e.target.matches('.field')) {
       const [row, col] = e.target.id.split('-')
-      
+      let newFields
       if (! isGameRunning) {
         setIsGameRunning(true)
-        const newFields = render_bombs(parseInt(row), parseInt(col))
-        showField(newFields, parseInt(row), parseInt(col))
-        setFields(newFields)
+        newFields = render_bombs(parseInt(row), parseInt(col))
       } else {
-        const newFields = [...fields]
-        showField(newFields, parseInt(row), parseInt(col))
-        setFields(newFields)
+        newFields = [...fields]
       }
+      showField(newFields, parseInt(row), parseInt(col))
+      setFields(newFields)
+    }
+  }
+  
+  const onContextMenu = (ev) => {
+    ev.preventDefault()
+    const coords = ev.target.id.split('-')
+    coords.forEach(str => parseInt(str))
+    if (isGameRunning) {
+      const newFields = [...fields]
+      noticeField(newFields, ...coords)
     }
   }
 
@@ -181,12 +208,7 @@ const Game = ({difficulty}) => {
   useEffect(() => {
     setFields(initFields())
     setIsGameRunning(false)
-  }, [difficulty])
-
-  const onContextMenu = (ev) => {
-    ev.preventDefault()
-
-  }
+  }, [difficulty, newGame])
 
   return (
     <div onContextMenu={onContextMenu} className="Game" onClick={onClick} >
