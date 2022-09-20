@@ -38,7 +38,7 @@ const Options = ({onChange, difficulty, bombsNoticed, restartGame}) => {
       </div>
       <div className='panel'>
         <span className={`time counter ${difficulty === 'easy' && 'easy'}`}>{difficulty !== 'easy' && 0}00</span>
-        <img className='emoji' onClick={restartGame} src={require('../img/startingEmoji.png')} ></img>
+        <img className='emoji' onClick={restartGame} src={require('../img/startingEmoji.png')} alt=""></img>
         <span className={`bombs-left counter ${difficulty === 'easy' && 'easy'}`}>{bombsLeftContent}</span>
       </div>
     </div>

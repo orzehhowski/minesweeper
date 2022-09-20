@@ -48,7 +48,9 @@ const GameField = ({fieldInfo}) => {
   return (
     <div className={`field 
     ${fieldInfo.hidden ? 'hidden' : 'shown'} 
-    f-${fieldInfo.content} ${fieldInfo.noticed && 'noticed'}`} 
+    f-${fieldInfo.content} 
+    ${fieldInfo.noticed && 'noticed'}
+    ${fieldInfo.lost && 'lost'}`} 
     id={`${fieldInfo.row}-${fieldInfo.col}`}>
       {content}
     </div>

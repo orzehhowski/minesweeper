@@ -7,6 +7,7 @@ function App() {
   const [color, setColor] = useState('light')
   const [bombsNoticed, setBombsNoticed] = useState(0)
   const [isGameRunning, setIsGameRunning] = useState(false)
+  const [isGameLost, setIsGameLost] = useState(false)
   const [newGame, setNewGame] = useState(0)
   const changeSettingsHandler = (setting, val) => {
     if (setting === 'color') {
@@ -22,8 +23,9 @@ function App() {
   }
 
   const restartGame = () => {
-    if (isGameRunning) {
+    if (isGameRunning || isGameLost) {
       setNewGame(x => x + 1)
+      setIsGameLost(false)
       setIsGameRunning(false)
       setBombsNoticed(0)
 
@@ -46,6 +48,8 @@ function App() {
         setIsGameRunning={setIsGameRunning}
         newGame={newGame}
         bombsNoticed={bombsNoticed} 
+        isGameLost={isGameLost}
+        setIsGameLost={setIsGameLost}
         />
       </div>
     </div>

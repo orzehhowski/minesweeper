@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import GameLine from "./GameLine"
 
-const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGame, bombsNoticed}) => {
+const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGame, bombsNoticed, isGameLost, setIsGameLost}) => {
   let width, height, bombsStart
   switch (difficulty) {
     case 'easy':
@@ -106,7 +106,7 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
     for (let row = 0; row < height; row++) {
       const line = []
       for (let col = 0; col < width; col++) {
-        const field = {col, row, content: 0, hidden: true, noticed: false}
+        const field = {col, row, content: 0, hidden: true, noticed: false, lost: false}
         line.push(field)
       }
       newFields.push(line)
@@ -126,17 +126,23 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
           if ((row < startRow - 1 || row > startRow + 1) || (col < startCol - 1 || col > startCol + 1)) {
             if (Math.random() < probability) {
               newFields[row][col].content = 'bomb'
-              for (const field of neighbourFields(newFields, row, col)) {
-                if (field.content !== 'bomb') {
-                  field.content++
-                }
-              }
               bombsCounter--
               if (bombsCounter === 0) {
                 break parentLoop
               }
             }
           }
+        }
+      }
+    }
+    for (const line of newFields) {
+      for (const field of line) {
+        if (field.content === 'bomb') {
+          neighbourFields(newFields, field.row, field.col).forEach(f => {
+            if (f.content !== 'bomb') {
+              f.content++
+            }
+          })
         }
       }
     }
@@ -147,16 +153,39 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
 
 
   const showField = (fieldsToEdit, row, col) => {
-    if (! fieldsToEdit[row][col].noticed) {
+    const toShow = fieldsToEdit[row][col]
+    if (! toShow.noticed) {
 
-      fieldsToEdit[row][col].hidden = false
+      if (toShow.hidden) {
 
-      if (fieldsToEdit[row][col].content === 0) {
+        toShow.hidden = false
+        if (toShow.content === 'bomb') {
+          setIsGameLost(true)
+          setIsGameRunning(false)
+          toShow.lost = true
+        }
+        
+        if (toShow.content === 0) {
+          neighbourFields(fieldsToEdit, row, col).forEach((field) => {
+            if (field.hidden) {
+              showField(fieldsToEdit, field.row, field.col)
+            }
+          })
+        }
+      } else {
+        let nearBombs = 0
         neighbourFields(fieldsToEdit, row, col).forEach((field) => {
-          if (field.hidden) {
-            showField(fieldsToEdit, field.row, field.col)
+          if (field.noticed) {
+            nearBombs++
           }
         })
+        if (nearBombs === toShow.content) {
+          neighbourFields(fieldsToEdit, row, col).forEach((field) => {
+            if (field.hidden) {
+              showField(fieldsToEdit, field.row, field.col)
+            }
+          })
+        }
       }
     }
   }
@@ -182,14 +211,16 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
     if (e.target.matches('.field')) {
       const [row, col] = e.target.id.split('-')
       let newFields
-      if (! isGameRunning) {
+      if (! isGameRunning && ! isGameLost) {
         setIsGameRunning(true)
         newFields = render_bombs(parseInt(row), parseInt(col))
       } else {
         newFields = [...fields]
       }
-      showField(newFields, parseInt(row), parseInt(col))
-      setFields(newFields)
+      if (!isGameLost) {
+        showField(newFields, parseInt(row), parseInt(col))
+        setFields(newFields)
+      }
     }
   }
   

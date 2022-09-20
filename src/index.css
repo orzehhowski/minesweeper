@@ -182,4 +182,7 @@ div .light {
 }
 .wrapper .Game .noticed {
   color: black;
+}
+.wrapper .Game .lost {
+  background-color: tomato;
 }/*# sourceMappingURL=index.css.map */
