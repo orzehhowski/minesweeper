@@ -50,7 +50,8 @@ const GameField = ({fieldInfo}) => {
     ${fieldInfo.hidden ? 'hidden' : 'shown'} 
     f-${fieldInfo.content} 
     ${fieldInfo.noticed && 'noticed'}
-    ${fieldInfo.lost && 'lost'}`} 
+    ${fieldInfo.lost && 'lost'}
+    ${fieldInfo.won && 'won'}`} 
     id={`${fieldInfo.row}-${fieldInfo.col}`}>
       {content}
     </div>

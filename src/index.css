@@ -185,4 +185,7 @@ div .light {
 }
 .wrapper .Game .lost {
   background-color: tomato;
+}
+.wrapper .Game .won {
+  color: rgb(56, 163, 56);
 }/*# sourceMappingURL=index.css.map */

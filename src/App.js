@@ -8,29 +8,31 @@ function App() {
   const [bombsNoticed, setBombsNoticed] = useState(0)
   const [isGameRunning, setIsGameRunning] = useState(false)
   const [isGameLost, setIsGameLost] = useState(false)
+  const [isGameWon, setIsGameWon] = useState(false)
   const [newGame, setNewGame] = useState(0)
   const changeSettingsHandler = (setting, val) => {
     if (setting === 'color') {
       setColor(val)
     }
-    else {setDifficulty(val)}
-  }
-
-  const onBombNoticed = (wasBombNoticed) => {
-    if (wasBombNoticed) {
-      setBombsNoticed(x => x + 1)
-    } else {setBombsNoticed(x => x - 1)}
+    else {
+      setDifficulty(val)
+      setIsGameRunning(false)
+      setBombsNoticed(0)
+    }
   }
 
   const restartGame = () => {
-    if (isGameRunning || isGameLost) {
+    if (isGameRunning || isGameLost || isGameWon) {
       setNewGame(x => x + 1)
       setIsGameLost(false)
       setIsGameRunning(false)
+      setIsGameWon(false)
       setBombsNoticed(0)
-
     }
+  }
 
+  const winGame = () => {
+    setIsGameWon(true)
   }
 
   return (
@@ -41,15 +43,19 @@ function App() {
         onChange={changeSettingsHandler} 
         difficulty={difficulty}
         restartGame={restartGame}
+        isGameLost={isGameLost}
+        isGameWon={isGameWon}
         />
         <Game difficulty={difficulty} 
-        onBombNoticed={onBombNoticed}
         isGameRunning={isGameRunning}
         setIsGameRunning={setIsGameRunning}
         newGame={newGame}
         bombsNoticed={bombsNoticed} 
         isGameLost={isGameLost}
         setIsGameLost={setIsGameLost}
+        isGameWon={isGameWon}
+        setIsGameWon={setIsGameWon}
+        setBombsNoticed={setBombsNoticed}
         />
       </div>
     </div>

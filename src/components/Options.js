@@ -1,6 +1,6 @@
 import DropdownElement from './DropdownElement'
 
-const Options = ({onChange, difficulty, bombsNoticed, restartGame}) => {
+const Options = ({onChange, difficulty, bombsNoticed, restartGame, isGameLost,isGameWon}) => {
   const bombs = difficulty === 'easy' ? 10 - bombsNoticed : (difficulty === 'medium' ? 40 - bombsNoticed : 99 - bombsNoticed)
   let bombsLeftContent
   if (difficulty === 'easy') {
@@ -38,8 +38,15 @@ const Options = ({onChange, difficulty, bombsNoticed, restartGame}) => {
       </div>
       <div className='panel'>
         <span className={`time counter ${difficulty === 'easy' && 'easy'}`}>{difficulty !== 'easy' && 0}00</span>
-        <img className='emoji' onClick={restartGame} src={require('../img/startingEmoji.png')} alt=""></img>
-        <span className={`bombs-left counter ${difficulty === 'easy' && 'easy'}`}>{bombsLeftContent}</span>
+        <img className='emoji' onClick={restartGame} 
+        src={isGameLost ? 
+        require('../img/loseEmoji.png') 
+        : isGameWon ? require('../img/winEmoji.png')
+        : require('../img/startingEmoji.png')} alt=""></img>
+        <span className={`bombs-left counter 
+        ${difficulty === 'easy' && 'easy'}`}>
+          {bombsLeftContent}
+        </span>
       </div>
     </div>
   )

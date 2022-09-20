@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import GameLine from "./GameLine"
 
-const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGame, bombsNoticed, isGameLost, setIsGameLost}) => {
+const Game = ({difficulty, isGameRunning, 
+  setIsGameRunning, newGame, bombsNoticed, 
+  isGameLost, setIsGameLost, setIsGameWon, isGameWon, setBombsNoticed}) => {
   let width, height, bombsStart
   switch (difficulty) {
     case 'easy':
@@ -106,7 +108,7 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
     for (let row = 0; row < height; row++) {
       const line = []
       for (let col = 0; col < width; col++) {
-        const field = {col, row, content: 0, hidden: true, noticed: false, lost: false}
+        const field = {col, row, content: 0, hidden: true, noticed: false, lost: false, won: false}
         line.push(field)
       }
       newFields.push(line)
@@ -119,7 +121,7 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
     const newFields = initFields()
 
     parentLoop:
-    while (bombsCounter > 0) {
+    while (bombsCounter >= 0) {
       const probability = bombsStart / (width * height)
       for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
@@ -150,8 +152,6 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
     return newFields
   }
 
-
-
   const showField = (fieldsToEdit, row, col) => {
     const toShow = fieldsToEdit[row][col]
     if (! toShow.noticed) {
@@ -160,9 +160,7 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
 
         toShow.hidden = false
         if (toShow.content === 'bomb') {
-          setIsGameLost(true)
-          setIsGameRunning(false)
-          toShow.lost = true
+          looseGame()
         }
         
         if (toShow.content === 0) {
@@ -187,31 +185,78 @@ const Game = ({difficulty, onBombNoticed, isGameRunning, setIsGameRunning, newGa
           })
         }
       }
+      let fieldsLeft = 0
+      fieldsToEdit.forEach(line => {
+        line.forEach(field => {
+          if (field.hidden) {
+            fieldsLeft++
+          }
+        })
+      })
+      if (fieldsLeft === bombsStart) {
+        winGame()
+      }
+      
     }
+  }
+
+  const looseGame = () => {
+    const newFields = [...fields]
+    newFields.forEach(line => {
+      line.forEach(field => {
+        if (field.content === 'bomb') {
+          field.hidden = false
+          field.lost = true
+        }
+      })
+    })
+    setIsGameLost(true)
+    setIsGameRunning(false)
+  }
+
+  const winGame = () => {
+    const newFields = [...fields]
+    newFields.forEach(line => {
+      line.forEach(field => {
+        if (field.content === 'bomb') {
+          field.won = true
+          field.noticed = true
+        }
+      })
+    })
+    setIsGameWon(true)
+    setIsGameRunning(false)
+    setBombsNoticed(bombsStart)
   }
 
   const noticeField = (fieldsToEdit, row, col) => {
     const field = fieldsToEdit[row][col]
     
-      if (field.hidden) {
-        if (field.noticed) {
-          field.noticed = false
-          onBombNoticed(false)
-        }
-        else {
-          if (bombsStart - bombsNoticed !== 0) {
-            field.noticed = true
-            onBombNoticed(true)
-          }
+    if (field.hidden) {
+      if (field.noticed) {
+        field.noticed = false
+        onBombNoticed(false)
+      }
+      else {
+        if (bombsStart - bombsNoticed !== 0) {
+          field.noticed = true
+          onBombNoticed(true)
         }
       }
+    }
+  }
+
+  const onBombNoticed = (wasBombNoticed) => {
+    if (wasBombNoticed) {
+      setBombsNoticed(x => x + 1)
+    } else {setBombsNoticed(x => x - 1)}
   }
 
   const onClick = (e) => {
     if (e.target.matches('.field')) {
       const [row, col] = e.target.id.split('-')
       let newFields
-      if (! isGameRunning && ! isGameLost) {
+      if (! (isGameRunning || isGameLost || isGameWon)) {
         setIsGameRunning(true)
         newFields = render_bombs(parseInt(row), parseInt(col))
       } else {
