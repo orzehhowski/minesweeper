@@ -43,6 +43,7 @@ function App() {
         onChange={changeSettingsHandler} 
         difficulty={difficulty}
         restartGame={restartGame}
+        isGameRunning={isGameRunning}
         isGameLost={isGameLost}
         isGameWon={isGameWon}
         />

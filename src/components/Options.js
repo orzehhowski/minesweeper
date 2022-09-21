@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react'
 import DropdownElement from './DropdownElement'
 
-const Options = ({onChange, difficulty, bombsNoticed, restartGame, isGameLost,isGameWon}) => {
+const Options = ({onChange, difficulty, bombsNoticed, restartGame, isGameRunning, isGameLost,isGameWon}) => {
   const bombs = difficulty === 'easy' ? 10 - bombsNoticed : (difficulty === 'medium' ? 40 - bombsNoticed : 99 - bombsNoticed)
   let bombsLeftContent
   if (difficulty === 'easy') {
@@ -16,6 +17,41 @@ const Options = ({onChange, difficulty, bombsNoticed, restartGame, isGameLost,is
       bombsLeftContent = `0${bombs}`
     }
   }
+
+  const [seconds, setSeconds] = useState(0)
+  const [timeString, setTimeString] = useState(difficulty === 'easy' ? '00' : '000')
+
+  const changeTime = () => {
+    setSeconds(sec => sec + 1)
+      if (seconds < 10) {
+        setTimeString(difficulty === 'easy' ? `0${seconds}` : `00${seconds}`)
+      } else if (seconds < 100) {
+        setTimeString(difficulty === 'easy' ? `${seconds}` : `0${seconds}`)
+      } else if (seconds < 1000) {
+        setTimeString(difficulty === 'easy' ? `99` : `${seconds}`)
+      } else {
+        setTimeString(difficulty === 'easy' ? `99` : `999`)
+      }
+  }
+
+  useEffect(() => {
+    if (! (isGameRunning || isGameLost || isGameWon)) {
+      setSeconds(-1)
+    } else if (! seconds) {
+      setSeconds(1)
+    }
+    const timeoutID = setTimeout(changeTime, 1000)
+    if (!isGameRunning) {
+      clearTimeout(timeoutID)
+      if (!(isGameLost || isGameWon)) {
+        changeTime()
+      }
+    }
+
+    return () => {
+      clearTimeout(timeoutID)
+    }
+  }, [difficulty, isGameRunning, isGameLost, isGameWon, seconds])
 
   return (
     <div className="Options">
@@ -37,7 +73,7 @@ const Options = ({onChange, difficulty, bombsNoticed, restartGame, isGameLost,is
         </div>
       </div>
       <div className='panel'>
-        <span className={`time counter ${difficulty === 'easy' && 'easy'}`}>{difficulty !== 'easy' && 0}00</span>
+        <span className={`time counter ${difficulty === 'easy' && 'easy'}`}>{timeString}</span>
         <img className='emoji' onClick={restartGame} 
         src={isGameLost ? 
         require('../img/loseEmoji.png') 
