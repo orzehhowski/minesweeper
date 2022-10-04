@@ -4,21 +4,15 @@ import { useState } from 'react';
 
 function App() {
   const [difficulty, setDifficulty] = useState('medium')
-  const [color, setColor] = useState('light')
   const [bombsNoticed, setBombsNoticed] = useState(0)
   const [isGameRunning, setIsGameRunning] = useState(false)
   const [isGameLost, setIsGameLost] = useState(false)
   const [isGameWon, setIsGameWon] = useState(false)
   const [newGame, setNewGame] = useState(0)
   const changeSettingsHandler = (setting, val) => {
-    if (setting === 'color') {
-      setColor(val)
-    }
-    else {
-      setDifficulty(val)
-      setIsGameRunning(false)
-      setBombsNoticed(0)
-    }
+    setDifficulty(val)
+    setIsGameRunning(false)
+    setBombsNoticed(0)
   }
 
   const restartGame = () => {
@@ -31,13 +25,9 @@ function App() {
     }
   }
 
-  const winGame = () => {
-    setIsGameWon(true)
-  }
-
   return (
-    <div className={`App ${color}`}>
-      <h1 className={color} >The minesweeper game</h1>
+    <div className={`App light`}>
+      <h1>The minesweeper game</h1>
       <div className="wrapper">
         <Options bombsNoticed={bombsNoticed} 
         onChange={changeSettingsHandler} 

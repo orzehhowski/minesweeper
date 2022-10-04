@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import DropdownElement from './DropdownElement'
 
-const Options = ({onChange, difficulty, bombsNoticed, restartGame, isGameRunning, isGameLost,isGameWon}) => {
+const Options = ({onChange, difficulty, bombsNoticed, restartGame, isGameRunning, isGameLost, isGameWon}) => {
   const bombs = difficulty === 'easy' ? 10 - bombsNoticed : (difficulty === 'medium' ? 40 - bombsNoticed : 99 - bombsNoticed)
   let bombsLeftContent
   if (difficulty === 'easy') {
@@ -62,13 +62,6 @@ const Options = ({onChange, difficulty, bombsNoticed, restartGame, isGameRunning
             <DropdownElement elementName="easy" dropdownName="difficulty" onChange={onChange}/>
             <DropdownElement elementName="medium" dropdownName="difficulty" onChange={onChange}/>
             <DropdownElement elementName="expert" dropdownName="difficulty" onChange={onChange}/>
-          </ul>
-        </div>
-        <div className='popup-wrapper'>
-          <span className='color-tag' >Color</span>
-          <ul className="Color">
-            <DropdownElement elementName="light" dropdownName="color" onChange={onChange}/>
-            <DropdownElement elementName="dark" dropdownName="color" onChange={onChange}/>
           </ul>
         </div>
       </div>

@@ -1,7 +1,8 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 body {
@@ -12,9 +13,16 @@ body {
 
 .App {
   min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 h1 {
@@ -31,19 +39,17 @@ div .light {
   color: #222;
 }
 
-.dark {
-  background-color: #222;
-  color: #ccc;
-}
-
 .wrapper {
   border-top: 4px solid #eee;
   border-left: 4px solid #eee;
   border-right: 4px solid #444;
   border-bottom: 4px solid #444;
-  box-shadow: 2px 2px 5px #444;
+  -webkit-box-shadow: 2px 2px 5px #444;
+          box-shadow: 2px 2px 5px #444;
 }
 .wrapper .Options .menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 22px;
   font-size: 14px;
@@ -51,8 +57,13 @@ div .light {
   border: 1px solid #aaa;
 }
 .wrapper .Options .menu .popup-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .wrapper .Options .menu .popup-wrapper ul {
   display: none;
@@ -91,9 +102,15 @@ div .light {
   display: inline-block;
 }
 .wrapper .Options .panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 8px;
 }
 .wrapper .Options .panel .emoji {
@@ -131,14 +148,22 @@ div .light {
   margin: 0 8px 8px 8px;
 }
 .wrapper .Game .line {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 .wrapper .Game .field {
   height: 22px;
   width: 22px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   font-size: 14px;
 }
 .wrapper .Game .field * {
